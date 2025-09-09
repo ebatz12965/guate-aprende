@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialiteController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Api\PermissionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +34,11 @@ Route::get('/app', function () {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserController::class);
 });
+
+// Rutas de administración
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+});
+
+

@@ -1,12 +1,16 @@
+//resources/js/app.js
+
 import './bootstrap';
 import { createApp } from 'vue';
-import App from './components/App.vue';
-import router from './router';
 
-import Alpine from 'alpinejs';
+// Importa y registra tus componentes
+import RolesComponent from './components/RolesComponent.vue';
+import PermissionsComponent from './components/PermissionsComponent.vue'; // Asegúrate de que este archivo exista
 
-window.Alpine = Alpine;
+const app = createApp({});
 
-Alpine.start();
+// Registra los componentes correctamente
+app.component('roles-component', RolesComponent);
+app.component('permissions-component', PermissionsComponent);
 
-createApp(App).use(router).mount('#app');
+app.mount('#app');
