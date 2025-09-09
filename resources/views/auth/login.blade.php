@@ -44,17 +44,4 @@
             </x-primary-button>
         </div>
     </form>
-
-    <div class="flex items-center justify-center mt-6">
-        <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
-        <div class="px-4 text-gray-500 dark:text-gray-400">o</div>
-        <div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
-    </div>
-
-    <div class="flex items-center justify-center mt-4">
-        <a href="{{ route('socialite.redirect', 'google') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 transition duration-150 ease-in-out">
-            <img src="https://www.google.com/favicon.ico" alt="Google icon" class="w-5 h-5 mr-2">
-            {{ __('Sign in with Google') }}
-        </a>
-    </div>
 </x-guest-layout>

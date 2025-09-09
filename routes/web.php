@@ -2,10 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Api\PermissionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,23 +18,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-Route::get('/auth/{provider}/redirect', [SocialiteController::class, 'redirect'])->name('socialite.redirect');
-Route::get('/auth/{provider}/callback', [SocialiteController::class, 'callback']);
-
-Route::get('/app', function () {
-    return view('app');
-});
-
-// Rutas de administración
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('users', UserController::class);
-});
-
-// Rutas de administración
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
-});
-
-
