@@ -60,6 +60,13 @@ return [
             'report' => false,
         ],
 
+        'courses' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/courses'),
+            'url' => env('APP_URL').'/storage/courses',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
