@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -11,7 +12,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::all();
+        return view('admin.courses.index', compact('courses'));
     }
 
     /**
@@ -59,6 +61,14 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Buscar cursos
+        $courses = Course::findOrFail($id);
+
+        //Eliminar curso
+        $courses->delete();
+
+        //Redirigir a la vista de cursos
+        return redirect()->route('admin.courses.index')
+            ->with('success', 'Curso eliminado');
     }
 }

@@ -13,7 +13,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('admin.roles.index');
+        $roles = Role::all();
+        return view('admin.roles.index', compact('roles'));
         //return response()->json(Role::all());
     }
 
@@ -62,6 +63,14 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Buscar roles por id
+        $user = User::findOrFail($id);
+
+        //Eliminar roles
+        $user->delete();
+
+        //Redirigir a la lista de usuarios
+        return redirect()->route('admin.roles.index')
+            ->with('success', 'Rol eliminado correctamente.');
     }
 }
