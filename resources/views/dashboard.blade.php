@@ -1,29 +1,37 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.platform')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("¡Usted está conectado!") }}
+@section('content')
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight mb-6">
+        Panel de Control
+    </h2>
 
-                    <!-- Botones ahora SI se verán -->
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a href="{{route('admin.users.index')}}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Usuarios</a>
-                        <a href="{{route('admin.courses.index')}}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">Cursos</a>
-                        <a href="{{route('admin.modules.index')}}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">Módulos</a>
-                        <a href="{{route('admin.classes.index')}}" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded">Clases</a>
-                        <a href="{{route('admin.roles.index')}}" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded">Roles</a>
-                        <a href="{{route('admin.permissions.index')}}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">Permisos</a>
-                        <a href="{{route('admin.dashboard')}}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">Panel Administrativo "Admin"</a>
-                    </div>
+    <div class="text-gray-900">
+        <p>¡Has iniciado sesión correctamente!</p>
 
-                </div>
+        <div class="mt-6 border-t border-gray-200 pt-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Accesos Rápidos</h3>
+            <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <a href="{{ route('admin.users.index') }}" class="rounded-lg bg-gray-50 p-4 hover:bg-gray-100 transition">
+                    <h4 class="font-semibold text-gray-800">Usuarios</h4>
+                    <p class="text-sm text-gray-600">Gestionar usuarios y permisos.</p>
+                </a>
+                <a href="{{ route('admin.courses.index') }}" class="rounded-lg bg-gray-50 p-4 hover:bg-gray-100 transition">
+                    <h4 class="font-semibold text-gray-800">Cursos</h4>
+                    <p class="text-sm text-gray-600">Administrar los cursos de la plataforma.</p>
+                </a>
+                <a href="{{ route('admin.roles.index') }}" class="rounded-lg bg-gray-50 p-4 hover:bg-gray-100 transition">
+                    <h4 class="font-semibold text-gray-800">Roles</h4>
+                    <p class="text-sm text-gray-600">Definir roles de usuario.</p>
+                </a>
+                <a href="{{ route('admin.permissions.index') }}" class="rounded-lg bg-gray-50 p-4 hover:bg-gray-100 transition">
+                    <h4 class="font-semibold text-gray-800">Permisos</h4>
+                    <p class="text-sm text-gray-600">Configurar permisos detallados.</p>
+                </a>
+                 <a href="{{route('admin.dashboard')}}" class="rounded-lg bg-red-100 p-4 hover:bg-red-200 transition">
+                    <h4 class="font-semibold text-red-800">Panel Administrativo</h4>
+                    <p class="text-sm text-red-600">Acceder al panel de administración.</p>
+                </a>
             </div>
         </div>
     </div>
-</x-app-layout>
+@endsection

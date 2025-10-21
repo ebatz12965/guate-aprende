@@ -40,7 +40,7 @@ class SocialiteController extends Controller
                 $user = User::create([
                     'name' => $socialUser->getName(),
                     'email' => $socialUser->getEmail(),
-                    'password' => \Hash::make(\Str::random(24)), // Genera una contraseña aleatoria
+                    'password' => \Hash::make(\Str::random(24)),
                 ]);
             }
 

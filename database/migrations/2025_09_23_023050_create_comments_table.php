@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('content');
+
+            // Para respuestas anidadas (un comentario puede pertenecer a otro comentario)
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
+
+            // Columnas para la relación polimórfica (un comentario puede pertenecer a un curso, una clase, etc.)
+            $table->morphs('commentable');
+
             $table->timestamps();
         });
     }

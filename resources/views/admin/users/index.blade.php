@@ -1,67 +1,68 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gestión de Usuarios</title>
+@extends('layouts.platform')
 
-    <!-- Tailwind CSS desde CDN para estilos rápidos -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 font-sans antialiased p-6">
+@section('content')
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Usuarios</h1>
+        <a href="{{ route('admin.users.create') }}" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700">
+            Crear Usuario
+        </a>
+    </div>
 
-<h1 class="text-3xl font-bold mb-6">Gestión de Usuarios</h1>
-
-<div class="bg-white shadow rounded-lg p-6">
-    <h2 class="text-2xl font-semibold mb-4">Listado de Usuarios</h2>
-
-    @if($users->count() > 0)
-        <table class="min-w-full border border-gray-200">
-            <thead class="bg-gray-100">
-            <tr>
-                <th class="py-2 px-4 text-left border-b">ID</th>
-                <th class="py-2 px-4 text-left border-b">Nombre</th>
-                <th class="py-2 px-4 text-left border-b">Email</th>
-                <th class="py-2 px-4 text-left border-b">Creado</th>
-                <th class="py-2 px-4 text-left border-b">Actualizado</th>
-                <th class="py-2 px-4 text-center border-b">Rol</th>
-                <th class="py-2 px-4 text-center border-b">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($users as $user)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="py-2 px-4">{{ $user->id }}</td>
-                    <td class="py-2 px-4">{{ $user->name }}</td>
-                    <td class="py-2 px-4">{{ $user->email }}</td>
-                    <td class="py-2 px-4">{{ $user->created_at->format('d/m/Y H:i') }}</td>
-                    <td class="py-2 px-4">{{ $user->updated_at->format('d/m/Y H:i') }}</td>
-                    <td class="py-2 px-4"></td>
-                    <td class="py-2 px-4 text-center flex justify-center gap-2">
-                        <!-- Botón Editar -->
-                        <a href="#"
-                           class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded">
-                            Editar
-                        </a>
-
-                        <!-- Botón Eliminar -->
-                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                    class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">
-                                Eliminar
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    @else
-        <p class="text-gray-500">No hay usuarios registrados.</p>
-    @endif
-</div>
-
-</body>
-</html>
+    <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            @if($users->count() > 0)
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Registro</th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only">Acciones</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($users as $user)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=7F9CF5&background=EBF4FF" alt="">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
+                                            <div class="text-sm text-gray-500">{{ $user->email }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @foreach($user->getRoleNames() as $role)
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            {{ $role }}
+                                        </span>
+                                    @endforeach
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $user->created_at->format('d/m/Y') }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block ml-4" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <div class="p-6 text-center text-gray-500">
+                    No hay usuarios registrados.
+                </div>
+            @endif
+        </div>
+    </div>
+@endsection

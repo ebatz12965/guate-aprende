@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
@@ -13,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all(); // Obtiene todos los usuarios
+        $users = User::latest()->get(); // Obtiene todos los usuarios, los más recientes primero
         return view('admin.users.index', compact('users'));
     }
 
@@ -22,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -30,7 +32,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'Usuario creado correctamente.');
     }
 
     /**
@@ -46,7 +60,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Aquí iría la lógica para mostrar el formulario de edición
     }
 
     /**
@@ -54,7 +68,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Aquí iría la lógica para actualizar el usuario
     }
 
     /**
@@ -62,14 +76,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        // Buscar usuario por id
         $user = User::findOrFail($id);
-
-        // Eliminar usuario
         $user->delete();
 
-        // Redirigir a la lista de usuarios con mensaje
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }

@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->string('code')->unique(); // Código único para verificación
+            $table->timestamp('issued_at')->useCurrent();
             $table->timestamps();
+
+            // Un usuario solo puede tener un certificado por curso
+            $table->unique(['user_id', 'course_id']);
         });
     }
 

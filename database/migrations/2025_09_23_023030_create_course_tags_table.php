@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('course_tags', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
+
+            // Definir la clave primaria compuesta
+            $table->primary(['course_id', 'tag_id']);
         });
     }
 
